@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マルチプレイヤーカーソルの土台</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #1a1a1a;
+            overflow: hidden;
+            height: 100vh;
+            /* 本物のマウスカーソルは邪魔なので消す */
+            cursor: none; 
+        }
+
+        /* あなたの画像カーソル（プレイヤー）の見た目 */
+        #player {
+            position: absolute;
+            /* 画像の幅と高さを指定（画像のサイズに合わせて調整してください） */
+            width: 32px; 
+            height: 32px;
+            
+            /* 【ここがポイント】
+               background-image で用意した画像を指定します。
+               url('画像のファイル名') と書きます。 */
+            background-image: url('player.png'); 
+            
+            /* 画像を要素いっぱいに、綺麗に表示させる設定 */
+            background-size: contain;
+            background-repeat: no-repeat;
+            
+            pointer-events: none; /* クリックの邪魔をしない */
+            
+            /* 動きを少し滑らかにする（お好みで消してもOK） */
+            transition: transform 0.03s ease-out; 
+            
+            /* 初期位置を画面外にしておく（マウスが動くまで表示させない） */
+            top: -100px;
+            left: -100px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="player"></div>
+
+    <script>
+        const player = document.getElementById('player');
+
+        // 画像の「先端」が正確にマウスの位置に重なるようにするための微調整。
+        // 用意した画像の矢印の先端がどこにあるかによって、この数字を調整します。
+        // 今回は、画像の左上が先端であると仮定しています。
+        const offsetX = 0; 
+        const offsetY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            // 画像の位置を変える
+            player.style.left = (e.clientX - offsetX) + 'px';
+            player.style.top = (e.clientY - offsetY) + 'px';
+        });
+    </script>
+
+</body>
+</html>
